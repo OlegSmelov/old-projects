@@ -1,0 +1,13 @@
+extends mapCreatorLayout
+
+block content
+    div#container
+        canvas#gameView.mapCreatorView(width="960",height="540")
+        div.mapCreator-image-select
+            div.mapCreator-image-url-title Paste image URL to begin creating( 960x540 for best results):
+            textarea.mapCreator-image-url(cols="100",rows="1")
+            div.mapCreator-submit-image Submit
+            div.mapCreator-load-from-code-title Or paste a preset that you have already made:
+            textarea.mapCreator-load-from-code(cols="100",rows="20")
+            div.mapCreator-submit-preset Submit
+        textarea.mapCreator-export(cols="100" rows="20")

@@ -1,0 +1,10 @@
+#############
+## Unity3D
+#############
+Library
+Temp
+*.csproj
+*.pidb
+*.unityproj
+*.sln
+*.userprefs

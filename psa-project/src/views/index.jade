@@ -1,0 +1,31 @@
+extends layout
+
+block content
+  div#fps
+  div#hp
+  div#message
+  div#status Status
+  canvas.background-canvas
+  div#container
+    div#high-scores
+      b High scores
+      br
+      br
+      span#high-scores-content
+      br
+      div.high-scores-update-button("onclick=updateScores()") Update
+    canvas#gameView(width="960",height="540")
+    div.perk-select
+      div.perk-list-wrapper
+          ul.perk-list
+              //-
+                  li.perk-selection
+                      div.perk-name
+                      div.perk-icon
+      div.perk-info
+          div.perk-image
+          div.perk-stats
+
+    //-
+      div#chat
+      input(type="text","onkeypress=inputKeyPressed(event,this.value)")

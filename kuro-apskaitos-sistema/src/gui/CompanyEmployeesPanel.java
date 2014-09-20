@@ -1,0 +1,302 @@
+package gui;
+
+import gui.lib.DBCellRenderer;
+import gui.lib.DBPanel;
+import gui.lib.DBTableModel;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.AbstractTableModel;
+import lib.Company;
+import lib.DatabaseObject;
+import lib.Employee;
+
+public class CompanyEmployeesPanel extends DBPanel {
+
+    private final Company company;
+    private final AbstractTableModel tableModel;
+    private String[] columnNames = {"Asmens kodas", "Vardas", "Pavardė", "Banko sąskaitos nr.", "Dirba"};
+
+    private final List<Employee> companyEmployees = new ArrayList<Employee>();
+
+    public CompanyEmployeesPanel() {
+        this(false, null);
+    }
+
+    /**
+     * Creates new form CompanyEmployeesPanel
+     */
+    public CompanyEmployeesPanel(boolean autoUpdate, final Company company) {
+        this.company = company;
+        this.tableModel = new DBTableModel(columnNames, objects) {
+
+            @Override
+            public Object getObjectValue(DatabaseObject object, int row, int col) {
+                Employee employee = (Employee) object;
+                switch (col) {
+                    case 0:
+                        return employee.getSSN();
+                    case 1:
+                        return employee.getFirstName();
+                    case 2:
+                        return employee.getLastName();
+                    case 3:
+                        return employee.getBankAccount();
+                    case 4:
+                        if (employee.isCreated()) {
+                            return getEmployeeWorks(employee);
+                        } else {
+                            return false;
+                        }
+                    default:
+                        return null;
+                }
+            }
+
+            @Override
+            public boolean setObjectValue(DatabaseObject object, Object value, int row, int col) {
+                if (object != null && !object.equals(getObjectValue(object, row, col))) {
+                    Employee employee = (Employee) object;
+                    switch (col) {
+                        case 0:
+                            employee.setSSN((String) value);
+                            break;
+                        case 1:
+                            employee.setFirstName((String) value);
+                            break;
+                        case 2:
+                            employee.setLastName((String) value);
+                            break;
+                        case 3:
+                            employee.setBankAccount((String) value);
+                            break;
+                        case 4:
+                            if (getEmployeeWorks(employee)) {
+                                company.removeEmployee(employee);
+                            } else {
+                                company.addEmployee(employee);
+                            }
+                            updateEmployeeList();
+                            break;
+                    }
+                    return true;
+                }
+                return false;
+            }
+
+            @Override
+            public boolean isObjectEditable(DatabaseObject object, int col) {
+                if (object.isCreated()) {
+                    return col > 0;
+                }
+                return col < 4;
+            }
+        };
+
+        initComponents();
+
+        if (autoUpdate) {
+            repopulateEmployeeTable();
+        }
+
+        employeeTable.setDefaultRenderer(Object.class, new DBCellRenderer());
+    }
+
+    private boolean getEmployeeWorks(Employee employee) {
+        for (Employee e : companyEmployees) {
+            if (employee.getSSN().equals(e.getSSN())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void updateEmployeeList() {
+        List<Employee> fetchedEmployees = company.fetchEmployees();
+
+        companyEmployees.clear();
+        if (fetchedEmployees != null) {
+            companyEmployees.addAll(fetchedEmployees);
+        }
+    }
+
+    @Override
+    public void resetData() {
+        repopulateEmployeeTable();
+    }
+
+    @Override
+    public void redrawData() {
+        tableModel.fireTableDataChanged();
+    }
+
+    private void repopulateEmployeeTable() {
+        updateEmployeeList();
+
+        List<Employee> fetchedEmployees = companyEmployees;
+        if (showAllEmployeesCheckbox.isSelected()) {
+            fetchedEmployees = Employee.fetchAll();
+        }
+
+        objects.clear();
+        if (fetchedEmployees != null) {
+            objects.addAll(fetchedEmployees);
+        }
+
+        tableModel.fireTableDataChanged();
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jScrollPane2 = new javax.swing.JScrollPane();
+        employeeTable = new javax.swing.JTable();
+        jAddButton = new javax.swing.JButton();
+        jRemoveButton = new javax.swing.JButton();
+        jSaveCompanyButton = new javax.swing.JButton();
+        jLoadButton = new javax.swing.JButton();
+        showAllEmployeesCheckbox = new javax.swing.JCheckBox();
+
+        employeeTable.setModel(tableModel);
+        employeeTable.getTableHeader().setReorderingAllowed(false);
+        jScrollPane2.setViewportView(employeeTable);
+
+        jAddButton.setText("Pridėti");
+        jAddButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jAddButtonActionPerformed(evt);
+            }
+        });
+
+        jRemoveButton.setText("Trinti");
+        jRemoveButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRemoveButtonActionPerformed(evt);
+            }
+        });
+
+        jSaveCompanyButton.setText("Išsaugoti");
+        jSaveCompanyButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jSaveCompanyButtonActionPerformed(evt);
+            }
+        });
+
+        jLoadButton.setText("Pakrauti");
+        jLoadButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jLoadButtonActionPerformed(evt);
+            }
+        });
+
+        showAllEmployeesCheckbox.setText("Rodyti visus darbuotojus");
+        showAllEmployeesCheckbox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                showAllEmployeesCheckboxActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
+        this.setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(showAllEmployeesCheckbox)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jAddButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jRemoveButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSaveCompanyButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLoadButton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(showAllEmployeesCheckbox)
+                .addGap(10, 10, 10)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jAddButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jRemoveButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 118, Short.MAX_VALUE)
+                        .addComponent(jSaveCompanyButton)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLoadButton))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jAddButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jAddButtonActionPerformed
+        Employee employee = new Employee("", "", "", "");
+        objects.add(employee);
+
+        int lastIndex = objects.size() - 1;
+        tableModel.fireTableRowsInserted(lastIndex, lastIndex);
+    }//GEN-LAST:event_jAddButtonActionPerformed
+
+    private void jRemoveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRemoveButtonActionPerformed
+        int[] selection = employeeTable.getSelectedRows();
+        if (selection.length > 0) {
+            int result = JOptionPane.showConfirmDialog(this, "Ar tikrai norite pašalinti pasirinktus įrašus?",
+                "Šalinti darbuotojus", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+
+            if (result == JOptionPane.YES_OPTION) {
+                for (int i = selection.length - 1; i >= 0; i--) {
+                    DatabaseObject object = objects.get(selection[i]);
+                    if (object.destroy()) {
+                        objects.remove(selection[i]);
+                    }
+                }
+
+                if (selection.length > 0) {
+                    tableModel.fireTableRowsDeleted(selection[0],
+                        selection[selection.length - 1]);
+                }
+            }
+        }
+    }//GEN-LAST:event_jRemoveButtonActionPerformed
+
+    private void jSaveCompanyButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jSaveCompanyButtonActionPerformed
+        saveData();
+        tableModel.fireTableDataChanged();
+    }//GEN-LAST:event_jSaveCompanyButtonActionPerformed
+
+    private void jLoadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jLoadButtonActionPerformed
+        resetData();
+    }//GEN-LAST:event_jLoadButtonActionPerformed
+
+    private void showAllEmployeesCheckboxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_showAllEmployeesCheckboxActionPerformed
+        if (!this.isUpdated()) {
+            showAllEmployeesCheckbox.setSelected(!showAllEmployeesCheckbox.isSelected());
+
+            JOptionPane.showMessageDialog(this, "Iš pradžių išsaugokite pakeitimus.");
+        } else {
+            repopulateEmployeeTable();
+        }
+    }//GEN-LAST:event_showAllEmployeesCheckboxActionPerformed
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTable employeeTable;
+    private javax.swing.JButton jAddButton;
+    private javax.swing.JButton jLoadButton;
+    private javax.swing.JButton jRemoveButton;
+    private javax.swing.JButton jSaveCompanyButton;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JCheckBox showAllEmployeesCheckbox;
+    // End of variables declaration//GEN-END:variables
+}

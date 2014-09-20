@@ -1,0 +1,39 @@
+<% flash.each do |key, value| %>
+  <div class="<%= flash_class(key) %>">
+    <%= value %>
+  </div>
+<% end %>
+
+<% if not @user %>
+  <h2>User not found</h2>
+<% elsif not current_user?(@user) %>
+  <h2>Information is private</h2>
+<% else %>
+<h2>User #<%= @user.id %></h2>
+
+<table class="table table-striped table-hover">
+  <tbody>
+    <tr>
+      <td>Name</td>
+      <td><%= @user.name %></td>
+    </tr>
+    <tr>
+      <td>Full name</td>
+      <td><%= @user.full_name %></td>
+    </tr>
+    <tr>
+      <td>Email</td>
+      <td><%= @user.email %></td>
+    </tr>
+    <tr>
+      <td>Bought products</td>
+      <td><%= @user.bought_products.length %></td>
+    </tr>
+  </tbody>
+</table>
+
+<% if @user == current_user %>
+  <%= link_to 'Update your profile', edit_user_path(@user) %>
+<% end %>
+
+<% end %>

@@ -1,0 +1,195 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  background: url("/assets/web/bg_img.png");
+}
+
+a {
+  color: #00b7ff;
+}
+
+.background-canvas {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#fps {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+}
+
+#hp, #status {
+	display: none;
+}
+
+#container {
+	position: absolute;
+	width: 1200px;
+	top: 50%;
+	left: 50%;
+	margin-top: -271px;
+	margin-left: -581px;
+}
+
+#gameView, .perk-select {
+	background: white;
+	border: 2px solid #2c3e50;
+	cursor: url("/assets/web/cursor.png") 0 0, auto;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+#high-scores {
+	width: 200px;
+	padding: 5px;
+	float: right;
+	font-family: Impact;
+	color: white;
+	font-size: 1.5em;
+	text-align: center;
+	overflow: hidden;
+}
+
+.high-scores-update-button {
+	font-size: 0.7em;
+	font-family: Tahoma;
+	padding: 2px;
+	background: #7f8c8d;
+	cursor: pointer;
+}
+
+.high-scores-update-button:hover {
+	background: #bdc3c7;
+}
+
+.mapCreatorView {
+	cursor: default !important;
+}
+
+.mapCreator-image-select, .mapCreator-export {
+	width: 964px;
+	height: 544px;
+	background: #3498db;
+	position: absolute;
+	color: #ecf0f1;
+}
+
+.mapCreator-export {
+	margin-top: 48%;
+	background: white;
+	display: none;
+	color: black;
+}
+.mapCreator-image-select>*{
+	margin-left: 10px;
+}
+
+.mapCreator-image-url, 
+.mapCreator-submit-image, 
+.mapCreator-load-from-code, 
+.mapCreator-submit-preset {
+	float: left;
+}
+
+.mapCreator-load-from-code-title {
+	width: 50%;
+	margin-top: 10%;
+}
+
+.mapCreator-submit-image, .mapCreator-submit-preset {
+	background: #2ecc71;
+	cursor: pointer;
+	font-size: 1.2em;
+	padding: 5px;
+}
+
+.mapCreator-submit-image:hover, .mapCreator-submit-preset:hover {
+	background: #27ae60;
+}
+
+.mapCreator-image-url-title {
+	margin-top: 20px;
+}
+
+
+.perk-select {
+	background: url("/assets/web/perk_bg_img.png");
+	width: 960px;
+	height: 540px;
+}
+
+	.perk-list-wrapper {
+		width: 30%;
+		height: 100%;
+		float: left;
+		overflow: hidden;
+	}
+
+		.perk-list {
+			width: 100%;
+			height: 100%;
+			list-style: none;
+			margin: 0;
+			padding: 0;
+		}
+
+			.perk-selection {
+				width: 85%;
+				height: 15%;
+				margin: 7.5%;
+				background: rgba(255,255,255, 0.1);
+			}
+
+			.perk-selection:hover {
+				background: rgba(255,255,255, 0.2);
+			}
+
+				.perk-name {
+					float: left;
+					width: 70%;
+					text-align: center;
+					position: relative;
+					top: 50%;
+					transform: translateY( -50% );
+					-webkit-transform: translateY( -50% );
+					font-family: Gothic;
+					font-size: 1.5em;
+					color: white;
+				}
+
+				.perk-icon {
+					float: left;
+					width: 20%;
+					height: 60%;
+					position: relative;
+					top: 50%;
+					transform: translateY( -50% );
+					-webkit-transform: translateY( -50% );
+				}
+
+	.perk-info {
+		width: 68%;
+		margin-top: 2%;
+		height: 92%;
+		float: left;
+		background: rgba(255,255,255, 0.1);
+	}
+
+		.perk-image {
+			width: 100%;
+			height: 50%;
+		}
+
+		.perk-stats {
+			width: 100%;
+			height: 50%;
+			text-align: center;
+			background: rgba(255,255,255, 0.1);
+			font-family: Gothic;
+			font-size: 1.5em;
+			color: white;
+			line-height: 5em;
+		}

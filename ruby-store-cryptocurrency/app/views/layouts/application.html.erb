@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cryptostore</title>
+  <%= stylesheet_link_tag    "application", media: "all", "data-turbolinks-track" => true %>
+  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+  <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+      <div class="container">
+        <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="brand" href="/">Cryptostore</a>
+        <div class="nav-collapse collapse">
+          <ul class="nav">
+            <li class="active"><a href="/">Home</a></li>
+          </ul>
+          <ul class="nav pull-right">
+            <% if signed_in? %>
+            <li><%= link_to "Users", users_path %></li>
+            <li id="fat-menu" class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Account <b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Profile", current_user %></li>
+                <!--li><%= link_to "Settings", '#' %></li-->
+                <li class="divider"></li>
+                <li>
+                  <%= link_to "Sign out", signout_path, method: "delete" %>
+                </li>
+              </ul>
+            </li>
+          <% else %>
+            <li><%= link_to "Sign in", signin_path %></li>
+            <li><%= link_to "Sign up", signup_path %></li>
+          <% end %>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="span8">
+        <%= yield %>
+      </div>
+      <div class="span4">
+        <h2>News</h2>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec a diam lectus. Sed sit amet ipsum mauris. Maecenas congue ligula ac quam viverra nec consectetur ante hendrerit. Donec et mollis dolor.</p>
+        <p>Praesent et diam eget libero egestas mattis sit amet vitae augue. Nam tincidunt congue enim, ut porta lorem lacinia consectetur. Donec ut libero sed arcu vehicula ultricies a non tortor. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean ut gravida lorem. Ut turpis felis, pulvinar a semper sed, adipiscing id dolor. Pellentesque auctor nisi id magna consequat sagittis. Curabitur dapibus enim sit amet elit pharetra tincidunt feugiat nisl imperdiet.</p>
+      </div>
+    </div>
+  </div> <!-- /container -->
+
+</body>
+</html>

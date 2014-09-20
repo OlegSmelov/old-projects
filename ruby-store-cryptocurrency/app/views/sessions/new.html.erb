@@ -1,0 +1,13 @@
+<h2>Sign in</h2>
+
+<% flash.each do |key, value| %>
+  <div class="<%= flash_class(key) %>">
+    <%= value %>
+  </div>
+<% end %>
+
+<%= bootstrap_form_for :session, url: sessions_path do |f| %>
+  <%= f.text_field :name %>
+  <%= f.password_field :password %>
+  <%= f.submit "Sign in" %>
+<% end %>

@@ -1,0 +1,10 @@
+<h2>Update your profile</h2>
+
+<%= bootstrap_form_for @user do |f| %>
+  <%= f.text_field :name %>
+  <%= f.text_field :full_name %>
+  <%= f.text_field :email %>
+  <%= f.password_field :password %>
+  <%= f.password_field :password_confirmation %>
+  <%= f.submit "Update" %>
+<% end %>
